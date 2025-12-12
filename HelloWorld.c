@@ -56,7 +56,21 @@ void insert_after(struct Node *target_node, char *value, struct Node *current_no
 	}
 }
 
-void insert_before(struct Node *target_node, char *value, struct Node *original) {
+void insert_before(struct Node *target_node, char *value, struct Node *current_node) {
+	struct Node *new_node = malloc(sizeof(struct Node));
+	new_node->value = value;
+	while(current_node) {
+		if(current_node == target_node) {
+			if(current_node->prev) {
+				new_node->prev = current_node->prev;
+				current_node->prev->next = new_node;
+			}
+			current_node->prev = new_node;
+			new_node->next = current_node;
+			break;
+		}
+		current_node = current_node->next;
+	}
 }
 
 
@@ -76,6 +90,7 @@ int main() {
 			current_node->prev = NULL;
 			current_node->next = next_node;
 			DBL->firstNode = current_node;
+			next_node->prev = current_node;
 			current_node = next_node;
 			continue;
 		}
@@ -142,12 +157,27 @@ int main() {
 		 */
 
 	// Test Insert After
-	char *new_string = malloc(2);
+/*	char *new_string = malloc(2);
 	new_string[0] = '9';
 	new_string[1] = '\0'; 
 	printf("Second node value before insertion %c\n", *DBL->firstNode->next->value);
 	printf("Third node value before insertion %c\n", *DBL->firstNode->next->next->value);
 	insert_after(DBL->firstNode->next,new_string, DBL->firstNode);
+	printf("Second node value after insertion %c\n", *DBL->firstNode->next->value);
+	printf("Third node value after insertion %c\n", *DBL->firstNode->next->next->value);
+
+	struct Node *displayNode = DBL->firstNode;
+	while (displayNode) {
+		printf("Value of current node is %c\n", *displayNode->value);
+		displayNode = displayNode->next;
+	};
+*/
+char *new_string = malloc(2);
+	new_string[0] = '9';
+	new_string[1] = '\0'; 
+	printf("Second node value before insertion %c\n", *DBL->firstNode->next->value);
+	printf("Third node value before insertion %c\n", *DBL->firstNode->next->next->value);
+	insert_before(DBL->firstNode->next,new_string, DBL->firstNode);
 	printf("Second node value after insertion %c\n", *DBL->firstNode->next->value);
 	printf("Third node value after insertion %c\n", *DBL->firstNode->next->next->value);
 
