@@ -22,6 +22,27 @@ struct Node *search_node(char val, struct Node *target) {
 	}
 }
 
+void insert_head(struct Node *node, struct Node *original, struct DoubleLinkedList *dbl) {
+	node->prev = NULL;
+	node->next = original;
+	original->prev = node;
+	dbl->firstNode = node;
+}
+void insert_tail(struct Node *node, struct Node *original, struct DoubleLinkedList *dbl) {
+	while(original) {
+		if(original->next == NULL) {
+			original->next = node;
+			node->prev = original;
+			node->next = NULL;
+			dbl->lastNode = node;
+		}
+	  original = original->next;
+	}
+}
+void insert_after(struct Node *node, struct Node *original) {
+}
+void insert_before(struct Node *node, struct Node *original) {
+}
 
 
 
@@ -63,19 +84,47 @@ int main() {
 		printf("Value of current node is %c\n", *current_node->value);
 		current_node = current_node->next;
 	};
-	
 
-	printf("Search of node #3 starting\n");
-	char to_search = '3';
-	struct Node *searched = search_node(to_search, DBL->firstNode);
 
-	if(searched == DBL->firstNode) {
-		printf("First Node found\n");
-	}
-	else if(searched == DBL->lastNode) {
-		printf("Last Node found\n");
-	}
-	printf("Result Node value = %c\n", *searched->value);
+	/* 
+		 Search Test
+
+		 printf("Search of node #3 starting\n");
+		 char to_search = '3';
+		 struct Node *searched = search_node(to_search, DBL->firstNode);
+
+		 if(searched == DBL->firstNode) {
+		 printf("First Node found\n");
+		 }
+		 else if(searched == DBL->lastNode) {
+		 printf("Last Node found\n");
+		 }
+		 printf("Result Node value = %c\n", *searched->value);
+		 */
+
+	// Insert Head Test
+	/* struct Node *new_head = malloc(sizeof(struct Node));
+		 char *new_string = malloc(2);
+		 new_string[0] = '9';
+		 new_string[1] = '\0'; 
+		 new_head->value = new_string;
+		 printf("new head addrs %p\n", new_head);
+		 insert_head(new_head, DBL->firstNode, DBL);
+		 printf("New Head value is %c\n", *DBL->firstNode->value);
+		 */
+
+	//Insert Tail Test
+	/* printf("prevous tail addrs %p\n", DBL->lastNode);
+		 printf("prevous tail value %c\n", *DBL->lastNode->value);
+		 struct Node *new_tail = malloc(sizeof(struct Node));
+		 char *new_string = malloc(2);
+		 new_string[0] = '9';
+		 new_string[1] = '\0'; 
+		 new_tail->value = new_string;
+		 insert_tail(new_tail, DBL->lastNode, DBL);
+		 printf("new tail addrs %p\n", DBL->lastNode);
+		 printf("New Tail value is %c\n", *DBL->lastNode->value);
+		 */
 
 	return 0;
 }
