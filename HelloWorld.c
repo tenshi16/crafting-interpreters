@@ -73,7 +73,19 @@ void insert_before(struct Node *target_node, char *value, struct Node *current_n
 	}
 }
 
-
+void delete_node(struct Node *target_node, struct DoubleLinkedList *dbl) {
+	if(target_node->prev) {
+		target_node->prev->next = target_node->next;
+	} else {
+		dbl->firstNode = target_node->next;
+	}
+	if(target_node->next) {
+		target_node->next->prev = target_node->prev;
+	} else {
+		dbl->lastNode = target_node->prev;
+	}
+	free(target_node);
+}
 
 int main() {
 	struct DoubleLinkedList *DBL = malloc(sizeof(struct DoubleLinkedList));
@@ -172,7 +184,8 @@ int main() {
 		displayNode = displayNode->next;
 	};
 */
-char *new_string = malloc(2);
+
+/* char *new_string = malloc(2);
 	new_string[0] = '9';
 	new_string[1] = '\0'; 
 	printf("Second node value before insertion %c\n", *DBL->firstNode->next->value);
@@ -186,6 +199,18 @@ char *new_string = malloc(2);
 		printf("Value of current node is %c\n", *displayNode->value);
 		displayNode = displayNode->next;
 	};
-
+	*/
+	struct Node *displayNode = DBL->firstNode;
+	while (displayNode) {
+		printf("Value of current node is %c\n", *displayNode->value);
+		displayNode = displayNode->next;
+	};
+	printf("\n\n\n");
+	delete_node(DBL->firstNode, DBL);
+	struct Node *displayNode2 = DBL->firstNode;
+	while (displayNode2) {
+		printf("Value of current node is %c\n", *displayNode2->value);
+		displayNode2 = displayNode2->next;
+	};
 	return 0;
 }
